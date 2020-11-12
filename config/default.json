@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb://atif:allahpak@contactkeeper-shard-00-00.jikvb.mongodb.net:27017,contactkeeper-shard-00-01.jikvb.mongodb.net:27017,contactkeeper-shard-00-02.jikvb.mongodb.net:27017/test?ssl=true&replicaSet=ContactKeeper-shard-0&authSource=admin&retryWrites=true&w=majority",
+    "jwtSecret":"secret"
+}

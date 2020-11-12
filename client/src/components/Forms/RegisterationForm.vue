@@ -5,19 +5,20 @@
     <div id="form-title">
     Registeration 
     </div>
+    <Alert v-if="errors.length >0" v-bind:alerts="errors"/>
     <div id="form-body">
     
     <div style="display:flex">
          <div class="col-12" style="flex:1">
           <fieldset class="form-group">
             <label class="form-label" for="guardianName">Guardian Full Name</label>
-            <input type="text" class="form-control" id="guardianName" v-model="guardianName" placeholder="Enter Guardian Name" required>
+            <input type="text" class="form-control" id="guardianName" v-model="guardianName"  placeholder="Enter Guardian Name" required>
           </fieldset>
         </div>
           <div class="col-12" style="flex:1">
           <fieldset class="form-group">
             <label class="form-label" for="studentName">Student Full Name</label>
-            <input type="text" class="form-control" id="studentName" v-model="studentName" placeholder="Enter Student Name" required>
+            <input type="text" class="form-control" id="studentName" v-model="studentName"   placeholder="Enter Student Name" required>
           </fieldset>
         </div>
     </div>
@@ -25,13 +26,13 @@
          <div class="col-12" style="flex:1">
           <fieldset class="form-group">
             <label class="form-label" for="subject">Subject</label>
-            <input type="text" class="form-control" id="subject" v-model="subject" placeholder="Enter Subject Name" required>
+            <input type="text" class="form-control" id="subject" v-model="subject"  placeholder="Enter Subject Name" required>
           </fieldset>
         </div>
           <div class="col-12" style="flex:1">
           <fieldset class="form-group">
             <label class="form-label" for="topic">Topic</label>
-            <input type="text" class="form-control" id="topic" v-model="topic" placeholder="What's the topic ?" required>
+            <input type="text" class="form-control" id="topic" v-model="topic"    placeholder="What's the topic ?" required>
           </fieldset>
         </div>
     </div>
@@ -39,7 +40,7 @@
         <div class="col-12">
           <fieldset class="form-group">
             <label class="form-label" for="appointment">Booking Appointment</label>
-            <input type="text" class="form-control" id="appointment" v-model="appointment" placeholder="Enter Booking Appointment" required>
+            <input type="text" class="form-control" id="appointment" v-model="appointment"   placeholder="Enter Booking Appointment" required>
           </fieldset>
         </div>
        
@@ -56,23 +57,29 @@
 </template>
 
 <script>
+import Alert from '../layouts/Alert'
 import axios from 'axios'
 export default {
     name:'RegisterationForm',
+    components:{
+      Alert
+    },
     data(){
         return{
             guardianName:'',
             studentName:'',
             subject:'',
             topic:'',
-            appointment:''
+            appointment:'',
+            errors:[
+            ]
         }
     },
     methods:{
         onSubmit(){
             let formData={
-                guardianName:this.guardianName,
-                studentName:this.studentName,
+                guardianname:this.guardianName,
+                studentname:this.studentName,
                 subject:this.subject,
                 topic:this.topic,
                 appointment:this.appointment
@@ -80,14 +87,18 @@ export default {
 
             const config = {
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                 'Access-Control-Allow-Origin': '*'
               }
             };
             
-            axios.post('http://127.0.0.1:5000/api/bookings/create',formData,config).then(res=>{
-                  console.log(res.data)
+            axios.post('http://localhost:5000/api/bookings/create',formData,config).then(res=>{
+                  
+                  window.location.href='/appointments';
+                  
             }).catch(err=>{
-              console.log(err)
+              this.errors = err.response.data.errors;
+             
             })
             
             
